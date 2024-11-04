@@ -12,9 +12,14 @@ namespace Infrastructure.Entities
         public string UserId { get; set; } = null!;
 
         [Required]
+        public string Address { get; set; } = null!;
+
+        [Required]
         public string ProductList { get; set; } = null!;
 
         [Required]
         public decimal PriceTotal { get; set; }
     }
 }
+
+
