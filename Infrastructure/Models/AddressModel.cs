@@ -2,7 +2,7 @@
 
 public class AddressModel
 {
-	public string AddressId { get; set; } = null!;
+	public string Id { get; set; } = null!;
 	public string Street { get; set; } = null!;
 	public string City { get; set; } = null!;
 	public string State { get; set; } = null!;

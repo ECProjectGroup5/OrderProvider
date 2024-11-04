@@ -2,7 +2,8 @@
 
 public class OrderModel
 {
-	public string OrderId { get; set; } = null!;
-	public AddressModel Address { get; set; } = null!;
-	public IEnumerable<ProductModel> Product { get; set; } = null!;
+	public string Id { get; set; } = null!;
+	public string UserId { get; set; } = null!;
+	public IEnumerable<ProductModel> Products { get; set; } = null!;
+	public decimal PriceTotal { get; set; }
 }
