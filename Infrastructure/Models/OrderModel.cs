@@ -7,4 +7,5 @@ public class OrderModel
 	public AddressModel Address { get; set; } = null!;
 	public IEnumerable<ProductModel> Products { get; set; } = null!;
 	public decimal PriceTotal { get; set; }
+	public bool IsConfirmed { get; set; } = false;
 }
