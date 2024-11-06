@@ -45,9 +45,7 @@ public class Infrastructure_Tests
         };
 
 		_productList.Add(_productModel);
-
     }
-
 
     [Fact]
 

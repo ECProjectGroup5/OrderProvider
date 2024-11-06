@@ -7,6 +7,6 @@ namespace Infrastructure.Models
 
         public AddressModel? Address { get; set; }
 
-        public bool IsGuest { get; set; } = false;
+        public string Role { get; set; } = null!;
     }
 }
