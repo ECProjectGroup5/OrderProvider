@@ -13,9 +13,54 @@ public class OrderService_Tests
 
     [Fact]
 
-    public async Task CreateOrderAsync_ShouldCreateAnOrderEntityInDatabase_And_ReturnTrue()
+    public void CreateOrderAsync_ShouldCreateAnOrder_And_ReturnTrue()
     {
+        // Arrange
 
+        var addressModel = new AddressModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
+
+        var productModel = new ProductModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = "Stövel",
+            Description = "Bootstrap Bill",
+            Stock = 20,
+            Price = 100m
+        };
+
+        var productList = new List<ProductModel>();
+
+        productList.Add(productModel);
+
+        var orderModel = new OrderModel
+        {
+            Id = Guid.NewGuid().ToString(),
+            UserId = Guid.NewGuid().ToString(),
+            Address = addressModel,
+            ShippingChoice = "PostNord Standard",
+            ProductList = productList,
+            PriceTotal = 100m
+        };
+
+        _orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true);
+
+        // Act
+
+        var result = _orderService.Object.CreateOrderAsync(orderModel);
+
+        // Assert
+
+        Assert.True(result);
     }
 
 }
