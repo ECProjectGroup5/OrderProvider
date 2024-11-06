@@ -106,4 +106,66 @@ public class OrderRepository_Tests
 
         Assert.True(!result);
     }
+
+	[Fact]
+	public async Task DeleteAsync_ShouldDeleteAnOrderEntityInDatabase_And_ReturnTrue()
+	{
+
+		// Arrange
+
+		var addressJSON = JsonConvert.SerializeObject(_addressModel);
+		var productListJSON = JsonConvert.SerializeObject(_productList);
+
+		var orderEntity = new OrderEntity
+		{
+			Id = "1",
+			Address = addressJSON,
+			UserId = Guid.NewGuid().ToString(),
+			ShippingChoice = "PostNord Standard",
+			ProductList = productListJSON,
+			PriceTotal = 100m
+		};
+
+		// Act
+		var createResult = await _orderRepository.CreateAsync(orderEntity);
+		var deleteResult = await _orderRepository.DeleteAsync(x => x.Id == orderEntity.Id);
+		var existingOrder = await _orderRepository.GetOneAsync(x => x.Id == orderEntity.Id);
+
+		// Assert
+
+		Assert.True(createResult);
+		Assert.True(deleteResult);
+		Assert.Null(existingOrder);
+	}
+
+	[Fact]
+	public async Task DeleteAsync_ShouldNotDeleteAnOrderEntityInDatabase_And_ReturnFalse()
+	{
+
+		// Arrange
+
+		var addressJSON = JsonConvert.SerializeObject(_addressModel);
+		var productListJSON = JsonConvert.SerializeObject(_productList);
+
+		var orderEntity = new OrderEntity
+		{
+			Id = "1",
+			Address = addressJSON,
+			UserId = Guid.NewGuid().ToString(),
+			ShippingChoice = "PostNord Standard",
+			ProductList = productListJSON,
+			PriceTotal = 100m
+		};
+
+		// Act
+		var createResult = await _orderRepository.CreateAsync(orderEntity);
+		var deleteResult = await _orderRepository.DeleteAsync(x => x.Id == "2");
+		var existingOrder = await _orderRepository.GetOneAsync(x => x.Id == orderEntity.Id);
+
+		// Assert
+
+		Assert.True(createResult);
+		Assert.True(!deleteResult);
+		Assert.NotNull(existingOrder);
+	}
 }
