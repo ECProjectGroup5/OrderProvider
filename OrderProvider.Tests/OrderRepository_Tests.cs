@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace OrderProvider.Tests;
 
-public class Infrastructure_Tests
+public class OrderRepository_Tests
 {
 	private readonly DataContext _context =
 		new(new DbContextOptionsBuilder<DataContext>()
@@ -19,7 +19,7 @@ public class Infrastructure_Tests
 	private List<ProductModel> _productList = new List<ProductModel>();
 	private ProductModel _productModel;
 
-	public Infrastructure_Tests()
+	public OrderRepository_Tests()
 	{
 		_orderRepository = new OrderRepository(_context);
 
