@@ -18,6 +18,7 @@ public class OrderRepository_Tests
 
     private OrderRepository _orderRepository;
 	private AddressModel _addressModel;
+	private UserModel _userModel;
 	private List<ProductModel> _productList = new List<ProductModel>();
 	private ProductModel _productModel;
 
@@ -36,6 +37,13 @@ public class OrderRepository_Tests
             CountryCallingCode = "+46",
             Country = "Sweden"
         };
+
+		_userModel = new UserModel()
+		{
+			Id = new Guid().ToString(),
+			Address = _addressModel,
+			Role = "Admin"
+		};
 
 		_productModel = new ProductModel()
         {
@@ -56,13 +64,13 @@ public class OrderRepository_Tests
 
 		// Arrange
 
-		var addressJSON = JsonConvert.SerializeObject(_addressModel);
+		var addressJSON = JsonConvert.SerializeObject(_userModel.Address);
 		var productListJSON = JsonConvert.SerializeObject(_productList);
 
 		var orderEntity = new OrderEntity 
 		{ 
 			Id = Guid.NewGuid().ToString(),
-            UserId = Guid.NewGuid().ToString(),
+            UserId = _userModel.Id,
             Address = addressJSON,
             ShippingChoice = "PostNord Standard",
 			ProductList = productListJSON,
@@ -85,15 +93,15 @@ public class OrderRepository_Tests
 
         // Arrange
 
-        var addressJSON = JsonConvert.SerializeObject(_addressModel);
+        var addressJSON = JsonConvert.SerializeObject(_userModel.Address);
         var productListJSON = JsonConvert.SerializeObject(_productList);
 
         var orderEntity = new OrderEntity
         {
             Id = null!,
             Address = addressJSON,
-            UserId = Guid.NewGuid().ToString(),
-            ShippingChoice = "PostNord Standard",
+			UserId = _userModel.Id,
+			ShippingChoice = "PostNord Standard",
             ProductList = productListJSON,
             PriceTotal = 100m
         };
@@ -113,14 +121,14 @@ public class OrderRepository_Tests
 
 		// Arrange
 
-		var addressJSON = JsonConvert.SerializeObject(_addressModel);
+		var addressJSON = JsonConvert.SerializeObject(_userModel.Address);
 		var productListJSON = JsonConvert.SerializeObject(_productList);
 
 		var orderEntity = new OrderEntity
 		{
 			Id = "1",
 			Address = addressJSON,
-			UserId = Guid.NewGuid().ToString(),
+			UserId = _userModel.Id,
 			ShippingChoice = "PostNord Standard",
 			ProductList = productListJSON,
 			PriceTotal = 100m
@@ -144,14 +152,14 @@ public class OrderRepository_Tests
 
 		// Arrange
 
-		var addressJSON = JsonConvert.SerializeObject(_addressModel);
+		var addressJSON = JsonConvert.SerializeObject(_userModel.Address);
 		var productListJSON = JsonConvert.SerializeObject(_productList);
 
 		var orderEntity = new OrderEntity
 		{
 			Id = "1",
 			Address = addressJSON,
-			UserId = Guid.NewGuid().ToString(),
+			UserId = _userModel.Id,
 			ShippingChoice = "PostNord Standard",
 			ProductList = productListJSON,
 			PriceTotal = 100m
