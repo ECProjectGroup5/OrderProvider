@@ -3,8 +3,7 @@
 public class OrderModel
 {
 	public string Id { get; set; } = null!;
-	public string UserId { get; set; } = null!;
-	public AddressModel Address { get; set; } = null!;
+    public UserModel User { get; set; } = null!;
 	public string ShippingChoice { get; set; } = null!;
     public string? DeliveryAddress { get; set; }
     public IEnumerable<ProductModel> ProductList { get; set; } = null!;

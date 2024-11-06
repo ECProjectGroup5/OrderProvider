@@ -31,7 +31,14 @@ public class OrderService_Tests
             Country = "Sweden"
         };
 
-        var productModel = new ProductModel()
+		var userModel = new UserModel()
+		{
+			Id = new Guid().ToString(),
+			Address = addressModel,
+			Role = "Admin"
+		};
+
+		var productModel = new ProductModel()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Stövel",
@@ -47,12 +54,11 @@ public class OrderService_Tests
         var orderModel = new OrderModel
         {
             Id = Guid.NewGuid().ToString(),
-            UserId = Guid.NewGuid().ToString(),
-            Address = addressModel,
+            User = userModel,
             ShippingChoice = "PostNord Standard",
             ProductList = productList,
             PriceTotal = 100m,
-            IsConfirmed = true
+            IsConfirmed = true,
         };
 
         _orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true); //CreateOrderAsync in the mocked orderService is setup to return true when an orderModel is inserted
@@ -65,5 +71,5 @@ public class OrderService_Tests
 
         Assert.True(result); //It should return true
     }
-
+	
 }
