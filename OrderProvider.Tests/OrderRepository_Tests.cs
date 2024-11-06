@@ -9,10 +9,12 @@ namespace OrderProvider.Tests;
 
 public class OrderRepository_Tests
 {
+	//InMemoryDatabase is initialized
+
 	private readonly DataContext _context =
 		new(new DbContextOptionsBuilder<DataContext>()
 			.UseInMemoryDatabase($"{Guid.NewGuid()}")
-			.Options);                                      //InMemoryDatabase is initialized
+			.Options);                                      
 
     private OrderRepository _orderRepository;
 	private AddressModel _addressModel;
@@ -60,8 +62,9 @@ public class OrderRepository_Tests
 		var orderEntity = new OrderEntity 
 		{ 
 			Id = Guid.NewGuid().ToString(),
-			Address = addressJSON,
-			UserId = Guid.NewGuid().ToString(),
+            UserId = Guid.NewGuid().ToString(),
+            Address = addressJSON,
+            ShippingChoice = "PostNord Standard",
 			ProductList = productListJSON,
 			PriceTotal = 100m
 		};
@@ -90,6 +93,7 @@ public class OrderRepository_Tests
             Id = null!,
             Address = addressJSON,
             UserId = Guid.NewGuid().ToString(),
+            ShippingChoice = "PostNord Standard",
             ProductList = productListJSON,
             PriceTotal = 100m
         };
