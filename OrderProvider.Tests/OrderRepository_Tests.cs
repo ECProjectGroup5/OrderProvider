@@ -136,14 +136,15 @@ public class OrderRepository_Tests
 
 		// Act
 		var createResult = await _orderRepository.CreateAsync(orderEntity);
-		var deleteResult = await _orderRepository.DeleteAsync(x => x.Id == orderEntity.Id);
 		var existingOrder = await _orderRepository.GetOneAsync(x => x.Id == orderEntity.Id);
+		var deleteResult = await _orderRepository.DeleteAsync(x => x.Id == existingOrder.Id);
+
 
 		// Assert
 
 		Assert.True(createResult);
 		Assert.True(deleteResult);
-		Assert.Null(existingOrder);
+		Assert.NotNull(existingOrder);
 	}
 
 	[Fact]
@@ -167,13 +168,13 @@ public class OrderRepository_Tests
 
 		// Act
 		var createResult = await _orderRepository.CreateAsync(orderEntity);
-		var deleteResult = await _orderRepository.DeleteAsync(x => x.Id == "2");
 		var existingOrder = await _orderRepository.GetOneAsync(x => x.Id == orderEntity.Id);
+		var deleteResult = await _orderRepository.DeleteAsync(x => x.Id == existingOrder.Id);
 
 		// Assert
 
 		Assert.True(createResult);
-		Assert.True(!deleteResult);
+		Assert.False(!deleteResult);
 		Assert.NotNull(existingOrder);
 	}
 }

@@ -257,9 +257,17 @@ public class OrderService_Tests
 			IsConfirmed = true,
 		};
 
-		_orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true);
-		_orderService.Setup(x => x.GetOneOrderAsync(orderModel.Id)).Returns(orderModel);
-		_orderService.Setup(x => x.DeleteOrderAsync(orderModel)).Returns(true);
+		if (orderModel.IsConfirmed)
+        {
+			_orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true);
+
+            if (orderModel.User.Role == "Admin")
+            {
+				_orderService.Setup(x => x.GetOneOrderAsync(orderModel.Id)).Returns(orderModel);
+				_orderService.Setup(x => x.DeleteOrderAsync(orderModel)).Returns(true);
+			}
+		}
+			
 
 		// Act
 
@@ -274,7 +282,7 @@ public class OrderService_Tests
 
 	[Fact]
 
-	public void DeleteOrderAsync_AdminShouldNotDeleteAnOrder_And_ReturnFalse()
+	public void DeleteOrderAsync_AdminShouldNotDeleteAnOrder_If_OrderId_Is_Incorrect()
 	{
 		// Arrange
 
@@ -320,9 +328,16 @@ public class OrderService_Tests
 			IsConfirmed = true,
 		};
 
-		_orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true);
-		_orderService.Setup(x => x.GetOneOrderAsync(orderModel.Id)).Returns(orderModel);
-
+        if (orderModel.IsConfirmed)
+        {
+			_orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true); 
+            
+            if (orderModel.User.Role == "Admin")
+            {
+				_orderService.Setup(x => x.GetOneOrderAsync(orderModel.Id)).Returns(orderModel);
+			}
+		}
+		
 
 		// Act
 
