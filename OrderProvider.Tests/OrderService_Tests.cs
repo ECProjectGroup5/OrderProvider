@@ -206,7 +206,7 @@ public class OrderService_Tests
 		// Assert
 
         Assert.True(result); //It should return true
-		Assert.True(result);
+
     }
 
 	[Fact]
