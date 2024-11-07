@@ -546,4 +546,164 @@ public class OrderService_Tests
         Assert.False(result); //It should return false
     }
 
+	[Fact]
+	public void UpdateOrderAsync_AdminUpdatesOrder_AndReturnTrue()
+	{
+		// Arrange
+
+		var addressModel = new AddressModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Street = "gata",
+			City = "Kalmar",
+			State = "Depression",
+			PhoneNumber = "123790",
+			ZipCode = "39350",
+			CountryCallingCode = "+46",
+			Country = "Sweden"
+		};
+
+		var userModel = new UserModel()
+		{
+			Id = new Guid().ToString(),
+			Address = addressModel,
+			Role = "Admin"
+		};
+
+		var productModel = new ProductModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Name = "Stövel",
+			Description = "Bootstrap Bill",
+			Stock = 20,
+			Price = 100m
+		};
+
+		var productList = new List<ProductModel>();
+
+		productList.Add(productModel);
+
+        //First orderModel
+		var originalOrder = new OrderModel
+		{
+			Id = Guid.NewGuid().ToString(),
+			User = userModel,
+			ShippingChoice = "PostNord Standard",
+			ProductList = productList,
+			PriceTotal = 100m,
+			IsConfirmed = true, 
+		};
+
+        //First orderModel updated
+		var updatedOrder = new OrderModel
+		{
+			Id = originalOrder.Id,
+			User = originalOrder.User,
+			ShippingChoice = "PostNord Express",
+			ProductList = originalOrder.ProductList,
+			PriceTotal = originalOrder.PriceTotal,
+			IsConfirmed = originalOrder.IsConfirmed,
+		};
+
+		_orderService.Setup(x => x.CreateOrderAsync(originalOrder)).Returns(true);
+		_orderService.Setup(x => x.UpdateOrderAsync(It.Is<OrderModel>(o => o.User.Role == "Admin"))).Returns(true);
+		_orderService.Setup(x => x.GetOneOrderAsync(originalOrder.Id)).Returns(updatedOrder);
+
+		// Act
+		var createResult = _orderService.Object.CreateOrderAsync(originalOrder);
+
+        //Updating the order
+		var updateResult = _orderService.Object.UpdateOrderAsync(updatedOrder);
+
+		//Fetching the updated order
+		var getOneResult = _orderService.Object.GetOneOrderAsync(originalOrder.Id);
+
+        // Assert
+        Assert.True(createResult);
+		Assert.True(updateResult);
+		Assert.NotNull(getOneResult);
+        Assert.Equal(originalOrder.Id, getOneResult.Id);
+		Assert.NotEqual(originalOrder.ShippingChoice, getOneResult.ShippingChoice);
+	}
+
+	[Fact]
+	public void UpdateOrderAsync_AdminUpdatesOrder_AndReturnFalse()
+	{
+		// Arrange
+
+		var addressModel = new AddressModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Street = "gata",
+			City = "Kalmar",
+			State = "Depression",
+			PhoneNumber = "123790",
+			ZipCode = "39350",
+			CountryCallingCode = "+46",
+			Country = "Sweden"
+		};
+
+		var userModel = new UserModel()
+		{
+			Id = new Guid().ToString(),
+			Address = addressModel,
+			Role = "Admin"
+		};
+
+		var productModel = new ProductModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Name = "Stövel",
+			Description = "Bootstrap Bill",
+			Stock = 20,
+			Price = 100m
+		};
+
+		var productList = new List<ProductModel>();
+
+		productList.Add(productModel);
+
+		//First orderModel
+		var originalOrder = new OrderModel
+		{
+			Id = Guid.NewGuid().ToString(),
+			User = userModel,
+			ShippingChoice = "PostNord Standard",
+			ProductList = productList,
+			PriceTotal = 100m,
+			IsConfirmed = true,
+		};
+
+		//First orderModel updated
+		var updatedOrder = new OrderModel
+		{
+			Id = originalOrder.Id,
+			User = originalOrder.User,
+			ShippingChoice = "PostNord Express",
+			ProductList = originalOrder.ProductList,
+			PriceTotal = originalOrder.PriceTotal,
+			IsConfirmed = originalOrder.IsConfirmed,
+		};
+
+		_orderService.Setup(x => x.CreateOrderAsync(originalOrder)).Returns(true);
+        //Return false
+		_orderService.Setup(x => x.UpdateOrderAsync(It.Is<OrderModel>(o => o.User.Role == "Admin"))).Returns(false);
+		_orderService.Setup(x => x.GetOneOrderAsync(originalOrder.Id)).Returns(updatedOrder);
+
+		// Act
+		var createResult = _orderService.Object.CreateOrderAsync(originalOrder);
+
+		//Trying to update the order
+		var updateResult = _orderService.Object.UpdateOrderAsync(updatedOrder);
+
+		//Fetching the original order
+		var getOneResult = _orderService.Object.GetOneOrderAsync(originalOrder.Id);
+
+		// Assert
+		Assert.True(createResult);
+		Assert.False(updateResult);
+		Assert.NotNull(getOneResult);
+		Assert.Equal(originalOrder.Id, getOneResult.Id);
+		Assert.NotEqual(originalOrder.ShippingChoice, getOneResult.ShippingChoice);
+	}
 }
