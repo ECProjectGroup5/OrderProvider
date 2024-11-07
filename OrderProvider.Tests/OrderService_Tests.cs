@@ -690,7 +690,8 @@ public class OrderService_Tests
 
         Assert.Null(result); //The returned value should be null
     }
-	[Fact]
+	
+    [Fact]
 	public void UpdateOrderAsync_AdminUpdatesOrder_AndReturnTrue()
 	{
 		// Arrange
@@ -771,7 +772,7 @@ public class OrderService_Tests
 	}
 
 	[Fact]
-	public void UpdateOrderAsync_AdminUpdatesOrder_AndReturnFalse()
+	public void UpdateOrderAsync_AdminTryToUpdateOrder_AndReturnFalse()
 	{
 		// Arrange
 
@@ -849,5 +850,89 @@ public class OrderService_Tests
 		Assert.NotNull(getOneResult);
 		Assert.Equal(originalOrder.Id, getOneResult.Id);
 		Assert.NotEqual(originalOrder.ShippingChoice, getOneResult.ShippingChoice);
+	}
+
+	[Fact]
+	public void GetOrdersAsync_UserShouldSeeAllOrders_AndReturnListOfOrders()
+	{
+		// Arrange
+
+		var addressModel = new AddressModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Street = "gata",
+			City = "Kalmar",
+			State = "Depression",
+			PhoneNumber = "123790",
+			ZipCode = "39350",
+			CountryCallingCode = "+46",
+			Country = "Sweden"
+		};
+
+		var firstUser = new UserModel()
+		{
+			Id = new Guid().ToString(),
+			Address = addressModel,
+			Role = "User"
+		};
+
+		var productModel = new ProductModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Name = "Stövel",
+			Description = "Bootstrap Bill",
+			Stock = 20,
+			Price = 100m
+		};
+
+		var productList = new List<ProductModel>();
+
+		productList.Add(productModel);
+
+
+        var ordersList = new List<OrderModel>();
+
+		var firstOrder = new OrderModel
+		{
+			Id = Guid.NewGuid().ToString(),
+			User = firstUser,
+			ShippingChoice = "PostNord Standard",
+			ProductList = productList,
+			PriceTotal = 100m,
+			IsConfirmed = true,
+		};
+        ordersList.Add(firstOrder);
+
+        var secondOrder = new OrderModel
+        {
+            Id = Guid.NewGuid().ToString(),
+            User = new UserModel { Id = "1", Address = addressModel, Role = "User" },
+            ShippingChoice = "PostNord Express",
+            ProductList = productList,
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
+        ordersList.Add(secondOrder);
+
+
+		_orderService.Setup(x => x.CreateOrderAsync(firstOrder)).Returns(true);
+		_orderService.Setup(x => x.CreateOrderAsync(secondOrder)).Returns(true);
+
+		//Return false
+		_orderService.Setup(x => x.GetAllUserOrdersAsync()).Returns(ordersList.Where(o => o.User.Id == firstUser.Id).ToList()); ;
+
+		// Act
+		var firstOrderResult = _orderService.Object.CreateOrderAsync(firstOrder);
+		var secondOrderResult = _orderService.Object.CreateOrderAsync(secondOrder);
+
+		//Fetching all orders connected to the user
+		var firstUserOrders = _orderService.Object.GetAllUserOrdersAsync();
+
+
+		// Assert
+		Assert.True(firstOrderResult);
+		Assert.True(secondOrderResult);
+        Assert.NotNull(firstUserOrders);
+		Assert.All(firstUserOrders, order => Assert.Equal(firstUser.Id, order.User.Id));
 	}
 }
