@@ -11,4 +11,5 @@ public class OrderModel
     public decimal PriceTotal { get; set; }
 	public bool IsConfirmed { get; set; } = false;
     public DateTime? DeliveryDate { get; set; }
+    public DateTime? CreationDate { get; set; }
 }

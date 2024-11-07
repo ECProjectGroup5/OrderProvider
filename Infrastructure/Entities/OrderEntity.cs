@@ -32,6 +32,9 @@ namespace Infrastructure.Entities
 
         [Column(TypeName = "datetime2")]
         public DateTime DeliveryDate { get; set; } = DateTime.Now.AddDays(7); //The date of delivery. Will first be an estimate, but will then be updated to the actual date that the order was delivered. Is set to 7 days ahead as default
+
+        [Column(TypeName = "datetime2")]
+        public DateTime CreationDate { get; set; } = DateTime.Now;
     }
 }
 
