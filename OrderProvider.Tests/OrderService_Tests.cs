@@ -967,4 +967,50 @@ public class OrderService_Tests
         Assert.IsType<CartModel>(result); //The returned object should be of the type CartModel
         Assert.Equal(userModel.Id, result.UserId); //The UserId of the returned cart should be equal to the Id of the user created above
     }
+
+    [Fact]
+
+    public void DeleteProductFromList_ShouldReturnUpdatedList_WithoutTheProduct()
+    {
+        // Arrange
+
+        var productModel = new ProductModel() //The first product is created
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = "Stövel",
+            Description = "Bootstrap Bill",
+            Stock = 20,
+            Price = 100m
+        };
+
+        var deletedProductModel = new ProductModel() //A different product is created. This is the one that will later be deleted from the list
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = "Gaffel",
+            Description = "Inte kniv",
+            Stock = 20,
+            Price = 100m
+        };
+
+        var productList = new List<ProductModel>(); //ProductList is initialized
+
+        productList.Add(productModel); //The first product is added to the list
+        productList.Add(deletedProductModel);
+        productList.Add(deletedProductModel); //Two instances of the second product is added
+
+        var updatedProductList = new List<ProductModel>(productList); //A new copy of the list is created
+        updatedProductList.Remove(deletedProductModel); //One of the deletedProductModel instances is deleted from the list
+
+        _orderService.Setup(x => x.DeleteProductFromList(productList, deletedProductModel.Id, 1)).Returns(updatedProductList); //DeleteProductFromList is setup to return the updated version of the list
+
+        // Act
+
+        var result = _orderService.Object.DeleteProductFromList(productList, deletedProductModel.Id, 1); //DeleteProductFromList method is called
+
+        // Assert
+
+        Assert.Equal(productList.Count() - 1, result.Count());
+        Assert.Contains<ProductModel>(productModel, result);
+        Assert.Contains<ProductModel>(deletedProductModel, result);
+    }
 }
