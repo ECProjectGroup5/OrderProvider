@@ -692,7 +692,7 @@ public class OrderService_Tests
     }
 	
     [Fact]
-	public void UpdateOrderAsync_AdminUpdatesOrder_AndReturnTrue()
+	public void UpdateOrderAsync_AdminUpdatesOrder_ShouldReturnTrue()
 	{
 		// Arrange
 
@@ -710,7 +710,7 @@ public class OrderService_Tests
 
 		var userModel = new UserModel()
 		{
-			Id = new Guid().ToString(),
+			Id = Guid.NewGuid().ToString(),
 			Address = addressModel,
 			Role = "Admin"
 		};
@@ -772,7 +772,7 @@ public class OrderService_Tests
 	}
 
 	[Fact]
-	public void UpdateOrderAsync_AdminTryToUpdateOrder_AndReturnFalse()
+	public void UpdateOrderAsync_AdminTryToUpdateOrder_ShouldReturnFalse()
 	{
 		// Arrange
 
@@ -790,7 +790,7 @@ public class OrderService_Tests
 
 		var userModel = new UserModel()
 		{
-			Id = new Guid().ToString(),
+			Id = Guid.NewGuid().ToString(),
 			Address = addressModel,
 			Role = "Admin"
 		};
@@ -831,6 +831,7 @@ public class OrderService_Tests
 		};
 
 		_orderService.Setup(x => x.CreateOrderAsync(originalOrder)).Returns(true);
+
         //Return false
 		_orderService.Setup(x => x.UpdateOrderAsync(It.Is<OrderModel>(o => o.User.Role == "Admin"))).Returns(false);
 		_orderService.Setup(x => x.GetOneOrderAsync(originalOrder.Id)).Returns(updatedOrder);
@@ -871,7 +872,7 @@ public class OrderService_Tests
 
 		var firstUser = new UserModel()
 		{
-			Id = new Guid().ToString(),
+			Id = Guid.NewGuid().ToString(),
 			Address = addressModel,
 			Role = "User"
 		};
@@ -917,8 +918,6 @@ public class OrderService_Tests
 
 		_orderService.Setup(x => x.CreateOrderAsync(firstOrder)).Returns(true);
 		_orderService.Setup(x => x.CreateOrderAsync(secondOrder)).Returns(true);
-
-		//Return false
 		_orderService.Setup(x => x.GetAllUserOrdersAsync()).Returns(ordersList.Where(o => o.User.Id == firstUser.Id).ToList()); ;
 
 		// Act
@@ -934,5 +933,138 @@ public class OrderService_Tests
 		Assert.True(secondOrderResult);
         Assert.NotNull(firstUserOrders);
 		Assert.All(firstUserOrders, order => Assert.Equal(firstUser.Id, order.User.Id));
+	}
+
+	[Fact]
+	public void GetOrdersAsync_UserShouldNotSeeAllOrders_AndReturnFalse()
+	{
+		// Arrange
+
+		var addressModel = new AddressModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Street = "gata",
+			City = "Kalmar",
+			State = "Depression",
+			PhoneNumber = "123790",
+			ZipCode = "39350",
+			CountryCallingCode = "+46",
+			Country = "Sweden"
+		};
+
+		var firstUser = new UserModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Address = addressModel,
+			Role = "User"
+		};
+
+		var ordersList = new List<OrderModel>();
+
+		_orderService.Setup(x => x.GetAllUserOrdersAsync()).Returns(ordersList.Where(o => o.User.Id == firstUser.Id).ToList());
+
+		// Act
+
+		//Checking if the user has any orders
+		var firstUserOrders = _orderService.Object.GetAllUserOrdersAsync();
+
+
+		// Assert
+		Assert.Empty(firstUserOrders);
+	}
+
+	[Fact]
+	public void GetOrdersAsync_UserShouldSeeAllOrdersSortedByDate_ReturnSortedListOfOrders()
+	{
+		// Arrange
+
+		var addressModel = new AddressModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Street = "gata",
+			City = "Kalmar",
+			State = "Depression",
+			PhoneNumber = "123790",
+			ZipCode = "39350",
+			CountryCallingCode = "+46",
+			Country = "Sweden"
+		};
+
+		var userModel = new UserModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Address = addressModel,
+			Role = "User"
+		};
+
+		var productModel = new ProductModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Name = "Stövel",
+			Description = "Bootstrap Bill",
+			Stock = 20,
+			Price = 100m
+		};
+
+		var productList = new List<ProductModel>();
+
+		productList.Add(productModel);
+
+
+		var ordersList = new List<OrderModel>();
+
+        var firstOrder = new OrderModel
+        {
+            Id = Guid.NewGuid().ToString(),
+            User = userModel,
+            ShippingChoice = "PostNord Standard",
+            ProductList = productList,
+            PriceTotal = 100m,
+            IsConfirmed = true,
+            CreationDate = new DateTime(2024, 11, 5)
+        };
+		ordersList.Add(firstOrder);
+
+		var secondOrder = new OrderModel
+		{
+			Id = Guid.NewGuid().ToString(),
+			User = userModel,
+			ShippingChoice = "PostNord Express",
+			ProductList = productList,
+			PriceTotal = 100m,
+			IsConfirmed = true,
+			CreationDate = new DateTime(2024, 11, 6)
+		};
+		ordersList.Add(secondOrder);
+
+		var thirdOrder = new OrderModel
+		{
+			Id = Guid.NewGuid().ToString(),
+			User = userModel,
+			ShippingChoice = "PostNord Express",
+			ProductList = productList,
+			PriceTotal = 100m,
+			IsConfirmed = true,
+			CreationDate = new DateTime(2024, 11, 7)
+		};
+		ordersList.Add(thirdOrder);
+
+		_orderService.Setup(x => x.CreateOrderAsync(firstOrder)).Returns(true);
+		_orderService.Setup(x => x.CreateOrderAsync(secondOrder)).Returns(true);
+		_orderService.Setup(x => x.CreateOrderAsync(thirdOrder)).Returns(true);
+		_orderService.Setup(x => x.GetAllUserOrdersAsync()).Returns(ordersList.Where(o => o.User.Id == userModel.Id).OrderByDescending(o => o.CreationDate).ToList());
+
+		// Act
+		var firstOrderResult = _orderService.Object.CreateOrderAsync(firstOrder);
+		var secondOrderResult = _orderService.Object.CreateOrderAsync(secondOrder);
+
+		//Fetching all orders connected to the user after creationDate
+		var firstUserOrders = _orderService.Object.GetAllUserOrdersAsync();
+
+		// Assert
+		Assert.All(firstUserOrders, order => Assert.Equal(userModel.Id, order.User.Id));
+		Assert.True(firstUserOrders.SequenceEqual(firstUserOrders.OrderByDescending(o => o.CreationDate).ToList()));
+		Assert.True(firstUserOrders.First().CreationDate == thirdOrder.CreationDate);
+		Assert.True(firstUserOrders.Last().CreationDate == firstOrder.CreationDate);
 	}
 }
