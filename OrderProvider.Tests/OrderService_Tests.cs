@@ -546,6 +546,150 @@ public class OrderService_Tests
         Assert.False(result); //It should return false
     }
 
+    [Fact]
+    public void GetOneOrderAsync_ShouldReturnCorrectOrder()
+    {
+        // Arrange
+
+        string id = Guid.NewGuid().ToString(); //An order number is created, which will be used to search for the corresponding order
+
+        var orderModel = new OrderModel //An orderModel is created with the id above, in order to simulate the corresponding order
+        {
+            Id = id,
+            User = new UserModel(),
+            ShippingChoice = "PostNord Standard",
+            ProductList = new List<ProductModel>(),
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
+
+
+        _orderService.Setup(x => x.GetOneOrderAsync(id)).Returns(orderModel); //GetOneOrderAsync in the mocked orderService is setup to return the simulated order above, if the corresponding Id is inserted
+
+        // Act
+
+        var result = _orderService.Object.GetOneOrderAsync(id); //GetOneOrderAsync is called
+
+        // Assert
+
+        Assert.NotNull(result); //The returned value should not be null
+        Assert.IsType<OrderModel>(result); //The returned object should be of the type OrderModel
+        Assert.Equal(id, result.Id); //The Id of the returned order should be equal to the one that was inserted to the GetOneOrderMethod
+    }
+
+    [Fact]
+    public void GetOneOrderAsync_ShouldReturnNull_WhenOrderDoesNotExist()
+    {
+        // Arrange
+
+        string id = Guid.NewGuid().ToString(); //An order number is created, which will be used to search for the corresponding order
+
+        var orderModel = new OrderModel //An orderModel is created with a diffrent id from the one above, in order to simulate a different order
+        {
+            Id = Guid.NewGuid().ToString(),
+            User = new UserModel(),
+            ShippingChoice = "PostNord Standard",
+            ProductList = new List<ProductModel>(),
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
+
+
+        _orderService.Setup(x => x.GetOneOrderAsync(orderModel.Id)).Returns(orderModel); //GetOneOrderAsync in the mocked orderService is setup to return the simulated order above, if the corresponding Id is inserted (otherwise it will return null)
+
+        // Act
+
+        var result = _orderService.Object.GetOneOrderAsync(id); //GetOneOrderAsync is called
+
+        // Assert
+
+        Assert.Null(result); //The returned value should be null
+    }
+
+    [Fact]
+    public void GetOneUserOrderAsync_ShouldReturnTheCorrectOrder_ToTheCorrectUser()
+    {
+        // Arrange
+
+        string id = Guid.NewGuid().ToString(); //An order number is created, which will be used to search for the corresponding order
+
+        var userModel = new UserModel() //A registered user is created
+        {
+            Id = new Guid().ToString(),
+            Address = new AddressModel(),
+            Role = "User"
+        };
+
+        var orderModel = new OrderModel //An orderModel is created with the same id as above, and with the same user as above, in order to simulate the corresponding order
+        {
+            Id = id,
+            User = userModel,
+            ShippingChoice = "PostNord Standard",
+            ProductList = new List<ProductModel>(),
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
+
+
+        _orderService.Setup(x => x.GetOneUserOrderAsync(id, userModel)).Returns(orderModel); //GetOneUserOrderAsync in the mocked orderService is setup to return the simulated order above, if the corresponding id and user is inserted (otherwise it will return null)
+
+        // Act
+
+        var result = _orderService.Object.GetOneUserOrderAsync(id, userModel); //GetOneUserOrderAsync is called
+
+        // Assert
+
+        Assert.NotNull(result); //The returned value should not be null
+        Assert.IsType<OrderModel>(result); //The returned object should be of the type OrderModel
+        Assert.Equal(id, result.Id); //The Id of the returned order should be equal to the one that was inserted to the GetOneUserOrderMethod
+        Assert.Equal(userModel.Id, result.User.Id); //The User Id of the returned order, should be equal to the one that belongs to the user that was inserted into the GetOneUserOrderMethod (confirming that the returned order belongs to the correct user)
+    }
+
+    [Fact]
+    public void GetOneUserOrderAsync_ShouldReturnNull_WhenAnOrderBelongsToDifferentUser()
+    {
+        // Arrange
+
+        string id = Guid.NewGuid().ToString(); //An order number is created, which will be used to search for the corresponding order
+
+        var userModel = new UserModel() //A registered user is created
+        {
+            Id = new Guid().ToString(),
+            Address = new AddressModel(),
+            Role = "User"
+        };
+
+        var orderModel = new OrderModel //An orderModel is created with the same user as above, in order to simulate an existing order that belongs to the above user
+        {
+            Id = Guid.NewGuid().ToString(),
+            User = userModel,
+            ShippingChoice = "PostNord Standard",
+            ProductList = new List<ProductModel>(),
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
+
+        var differentOrderModel = new OrderModel //An orderModel is created with the same id as above, BUT with a different user from the one above, in order to simulate an existing order that belongs to a different user
+        {
+            Id = id,
+            User = new UserModel() { Id = Guid.NewGuid().ToString() },
+            ShippingChoice = "PostNord Standard",
+            ProductList = new List<ProductModel>(),
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
+
+
+        _orderService.Setup(x => x.GetOneUserOrderAsync(orderModel.Id, userModel)).Returns(orderModel); //GetOneUserOrderAsync in the mocked orderService is setup to return the simulated orderModel, if the corresponding id and user is inserted (otherwise it will return null)
+
+        // Act
+
+        var result = _orderService.Object.GetOneUserOrderAsync(id, userModel); //GetOneUserOrderAsync is called
+
+        // Assert
+
+        Assert.Null(result); //The returned value should be null
+    }
 	[Fact]
 	public void UpdateOrderAsync_AdminUpdatesOrder_AndReturnTrue()
 	{
