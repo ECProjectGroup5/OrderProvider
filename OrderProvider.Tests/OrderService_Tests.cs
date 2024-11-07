@@ -1012,8 +1012,6 @@ public class OrderService_Tests
         Assert.Contains<ProductModel>(productModel, result);
         Assert.Contains<ProductModel>(deletedProductModel, result);
     }
-		Assert.All(firstUserOrders, order => Assert.Equal(firstUser.Id, order.User.Id));
-	}
 
 	[Fact]
 	public void GetOrdersAsync_UserShouldNotSeeAllOrders_AndReturnFalse()
