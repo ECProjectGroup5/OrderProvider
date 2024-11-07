@@ -12,4 +12,5 @@ public interface IOrderService
 	bool DeleteOrderAsync(OrderModel model);
 	AddressModel GetAddressAsync(string id);
 	IEnumerable<ProductModel> GetProductListAsync(string id);
+	CartModel GetUserCartAsync(string userId);
 }

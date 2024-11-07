@@ -29,14 +29,14 @@ public class OrderService_Tests
             Country = "Sweden"
         };
 
-		var userModel = new UserModel() //An admin user is created
-		{
-			Id = new Guid().ToString(),
-			Address = addressModel,
-			Role = "Admin"
-		};
+        var userModel = new UserModel() //An admin user is created
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "Admin"
+        };
 
-		var productModel = new ProductModel()
+        var productModel = new ProductModel()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Stövel",
@@ -203,151 +203,151 @@ public class OrderService_Tests
 
         var result = _orderService.Object.CreateOrderAsync(orderModel); //CreateOrderAsync is called, with the created orderModel
 
-		// Assert
+        // Assert
 
         Assert.True(result); //It should return true
 
     }
 
-	[Fact]
+    [Fact]
 
-	public void DeleteOrderAsync_AdminShouldDeleteAnOrder_And_ReturnTrue()
-	{
-		// Arrange
+    public void DeleteOrderAsync_AdminShouldDeleteAnOrder_And_ReturnTrue()
+    {
+        // Arrange
 
-		var addressModel = new AddressModel()
-		{
-			Id = Guid.NewGuid().ToString(),
-			Street = "gata",
-			City = "Kalmar",
-			State = "Depression",
-			PhoneNumber = "123790",
-			ZipCode = "39350",
-			CountryCallingCode = "+46",
-			Country = "Sweden"
-		};
-
-		var userModel = new UserModel()
-		{
-			Id = new Guid().ToString(),
-			Address = addressModel,
-			Role = "Admin"
-		};
-
-		var productModel = new ProductModel()
-		{
-			Id = Guid.NewGuid().ToString(),
-			Name = "Stövel",
-			Description = "Bootstrap Bill",
-			Stock = 20,
-			Price = 100m
-		};
-
-		var productList = new List<ProductModel>();
-
-		productList.Add(productModel);
-
-		var orderModel = new OrderModel
-		{
-			Id = Guid.NewGuid().ToString(),
-			User = userModel,
-			ShippingChoice = "PostNord Standard",
-			ProductList = productList,
-			PriceTotal = 100m,
-			IsConfirmed = true,
-		};
-
-		if (orderModel.IsConfirmed)
+        var addressModel = new AddressModel()
         {
-			_orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true);
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
 
-            if (orderModel.User.Role == "Admin")
-            {
-				_orderService.Setup(x => x.GetOneOrderAsync(orderModel.Id)).Returns(orderModel);
-				_orderService.Setup(x => x.DeleteOrderAsync(orderModel)).Returns(true);
-			}
-		}
-			
+        var userModel = new UserModel()
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "Admin"
+        };
 
-		// Act
+        var productModel = new ProductModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = "Stövel",
+            Description = "Bootstrap Bill",
+            Stock = 20,
+            Price = 100m
+        };
 
-		var createResult = _orderService.Object.CreateOrderAsync(orderModel);
-		var existingOrderResult = _orderService.Object.GetOneOrderAsync(orderModel.Id);
-		var deleteResult = _orderService.Object.DeleteOrderAsync(existingOrderResult);
+        var productList = new List<ProductModel>();
 
-		// Assert
-		Assert.Equal("Admin", userModel.Role);
-		Assert.True(deleteResult);
-	}
+        productList.Add(productModel);
 
-	[Fact]
-
-	public void DeleteOrderAsync_AdminShouldNotDeleteAnOrder_If_OrderId_Is_Incorrect()
-	{
-		// Arrange
-
-		var addressModel = new AddressModel()
-		{
-			Id = Guid.NewGuid().ToString(),
-			Street = "gata",
-			City = "Kalmar",
-			State = "Depression",
-			PhoneNumber = "123790",
-			ZipCode = "39350",
-			CountryCallingCode = "+46",
-			Country = "Sweden"
-		};
-
-		var userModel = new UserModel()
-		{
-			Id = new Guid().ToString(),
-			Address = addressModel,
-			Role = "Admin"
-		};
-
-		var productModel = new ProductModel()
-		{
-			Id = Guid.NewGuid().ToString(),
-			Name = "Stövel",
-			Description = "Bootstrap Bill",
-			Stock = 20,
-			Price = 100m
-		};
-
-		var productList = new List<ProductModel>();
-
-		productList.Add(productModel);
-
-		var orderModel = new OrderModel
-		{
-			Id = Guid.NewGuid().ToString(),
-			User = userModel,
-			ShippingChoice = "PostNord Standard",
-			ProductList = productList,
-			PriceTotal = 100m,
-			IsConfirmed = true,
-		};
+        var orderModel = new OrderModel
+        {
+            Id = Guid.NewGuid().ToString(),
+            User = userModel,
+            ShippingChoice = "PostNord Standard",
+            ProductList = productList,
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
 
         if (orderModel.IsConfirmed)
         {
-			_orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true); 
-            
+            _orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true);
+
             if (orderModel.User.Role == "Admin")
             {
-				_orderService.Setup(x => x.GetOneOrderAsync(orderModel.Id)).Returns(orderModel);
-			}
-		}
-		
+                _orderService.Setup(x => x.GetOneOrderAsync(orderModel.Id)).Returns(orderModel);
+                _orderService.Setup(x => x.DeleteOrderAsync(orderModel)).Returns(true);
+            }
+        }
 
-		// Act
 
-		var createResult = _orderService.Object.CreateOrderAsync(orderModel);
-		var existingOrderResult = _orderService.Object.GetOneOrderAsync("2");
+        // Act
 
-		// Assert
-		Assert.Equal("Admin", userModel.Role);
-		Assert.Null(existingOrderResult);
-	}
+        var createResult = _orderService.Object.CreateOrderAsync(orderModel);
+        var existingOrderResult = _orderService.Object.GetOneOrderAsync(orderModel.Id);
+        var deleteResult = _orderService.Object.DeleteOrderAsync(existingOrderResult);
+
+        // Assert
+        Assert.Equal("Admin", userModel.Role);
+        Assert.True(deleteResult);
+    }
+
+    [Fact]
+
+    public void DeleteOrderAsync_AdminShouldNotDeleteAnOrder_If_OrderId_Is_Incorrect()
+    {
+        // Arrange
+
+        var addressModel = new AddressModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
+
+        var userModel = new UserModel()
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "Admin"
+        };
+
+        var productModel = new ProductModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = "Stövel",
+            Description = "Bootstrap Bill",
+            Stock = 20,
+            Price = 100m
+        };
+
+        var productList = new List<ProductModel>();
+
+        productList.Add(productModel);
+
+        var orderModel = new OrderModel
+        {
+            Id = Guid.NewGuid().ToString(),
+            User = userModel,
+            ShippingChoice = "PostNord Standard",
+            ProductList = productList,
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
+
+        if (orderModel.IsConfirmed)
+        {
+            _orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true);
+
+            if (orderModel.User.Role == "Admin")
+            {
+                _orderService.Setup(x => x.GetOneOrderAsync(orderModel.Id)).Returns(orderModel);
+            }
+        }
+
+
+        // Act
+
+        var createResult = _orderService.Object.CreateOrderAsync(orderModel);
+        var existingOrderResult = _orderService.Object.GetOneOrderAsync("2");
+
+        // Assert
+        Assert.Equal("Admin", userModel.Role);
+        Assert.Null(existingOrderResult);
+    }
     [Fact]
 
     public void CreateOrderAsync_ShouldReturnFalse_WhenProductIsNotInStock()
@@ -690,217 +690,217 @@ public class OrderService_Tests
 
         Assert.Null(result); //The returned value should be null
     }
-	
+
     [Fact]
-	public void UpdateOrderAsync_AdminUpdatesOrder_AndReturnTrue()
-	{
-		// Arrange
+    public void UpdateOrderAsync_AdminUpdatesOrder_AndReturnTrue()
+    {
+        // Arrange
 
-		var addressModel = new AddressModel()
-		{
-			Id = Guid.NewGuid().ToString(),
-			Street = "gata",
-			City = "Kalmar",
-			State = "Depression",
-			PhoneNumber = "123790",
-			ZipCode = "39350",
-			CountryCallingCode = "+46",
-			Country = "Sweden"
-		};
+        var addressModel = new AddressModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
 
-		var userModel = new UserModel()
-		{
-			Id = new Guid().ToString(),
-			Address = addressModel,
-			Role = "Admin"
-		};
+        var userModel = new UserModel()
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "Admin"
+        };
 
-		var productModel = new ProductModel()
-		{
-			Id = Guid.NewGuid().ToString(),
-			Name = "Stövel",
-			Description = "Bootstrap Bill",
-			Stock = 20,
-			Price = 100m
-		};
+        var productModel = new ProductModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = "Stövel",
+            Description = "Bootstrap Bill",
+            Stock = 20,
+            Price = 100m
+        };
 
-		var productList = new List<ProductModel>();
+        var productList = new List<ProductModel>();
 
-		productList.Add(productModel);
+        productList.Add(productModel);
 
         //First orderModel
-		var originalOrder = new OrderModel
-		{
-			Id = Guid.NewGuid().ToString(),
-			User = userModel,
-			ShippingChoice = "PostNord Standard",
-			ProductList = productList,
-			PriceTotal = 100m,
-			IsConfirmed = true, 
-		};
+        var originalOrder = new OrderModel
+        {
+            Id = Guid.NewGuid().ToString(),
+            User = userModel,
+            ShippingChoice = "PostNord Standard",
+            ProductList = productList,
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
 
         //First orderModel updated
-		var updatedOrder = new OrderModel
-		{
-			Id = originalOrder.Id,
-			User = originalOrder.User,
-			ShippingChoice = "PostNord Express",
-			ProductList = originalOrder.ProductList,
-			PriceTotal = originalOrder.PriceTotal,
-			IsConfirmed = originalOrder.IsConfirmed,
-		};
+        var updatedOrder = new OrderModel
+        {
+            Id = originalOrder.Id,
+            User = originalOrder.User,
+            ShippingChoice = "PostNord Express",
+            ProductList = originalOrder.ProductList,
+            PriceTotal = originalOrder.PriceTotal,
+            IsConfirmed = originalOrder.IsConfirmed,
+        };
 
-		_orderService.Setup(x => x.CreateOrderAsync(originalOrder)).Returns(true);
-		_orderService.Setup(x => x.UpdateOrderAsync(It.Is<OrderModel>(o => o.User.Role == "Admin"))).Returns(true);
-		_orderService.Setup(x => x.GetOneOrderAsync(originalOrder.Id)).Returns(updatedOrder);
+        _orderService.Setup(x => x.CreateOrderAsync(originalOrder)).Returns(true);
+        _orderService.Setup(x => x.UpdateOrderAsync(It.Is<OrderModel>(o => o.User.Role == "Admin"))).Returns(true);
+        _orderService.Setup(x => x.GetOneOrderAsync(originalOrder.Id)).Returns(updatedOrder);
 
-		// Act
-		var createResult = _orderService.Object.CreateOrderAsync(originalOrder);
+        // Act
+        var createResult = _orderService.Object.CreateOrderAsync(originalOrder);
 
         //Updating the order
-		var updateResult = _orderService.Object.UpdateOrderAsync(updatedOrder);
+        var updateResult = _orderService.Object.UpdateOrderAsync(updatedOrder);
 
-		//Fetching the updated order
-		var getOneResult = _orderService.Object.GetOneOrderAsync(originalOrder.Id);
+        //Fetching the updated order
+        var getOneResult = _orderService.Object.GetOneOrderAsync(originalOrder.Id);
 
         // Assert
         Assert.True(createResult);
-		Assert.True(updateResult);
-		Assert.NotNull(getOneResult);
+        Assert.True(updateResult);
+        Assert.NotNull(getOneResult);
         Assert.Equal(originalOrder.Id, getOneResult.Id);
-		Assert.NotEqual(originalOrder.ShippingChoice, getOneResult.ShippingChoice);
-	}
+        Assert.NotEqual(originalOrder.ShippingChoice, getOneResult.ShippingChoice);
+    }
 
-	[Fact]
-	public void UpdateOrderAsync_AdminTryToUpdateOrder_AndReturnFalse()
-	{
-		// Arrange
+    [Fact]
+    public void UpdateOrderAsync_AdminTryToUpdateOrder_AndReturnFalse()
+    {
+        // Arrange
 
-		var addressModel = new AddressModel()
-		{
-			Id = Guid.NewGuid().ToString(),
-			Street = "gata",
-			City = "Kalmar",
-			State = "Depression",
-			PhoneNumber = "123790",
-			ZipCode = "39350",
-			CountryCallingCode = "+46",
-			Country = "Sweden"
-		};
+        var addressModel = new AddressModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
 
-		var userModel = new UserModel()
-		{
-			Id = new Guid().ToString(),
-			Address = addressModel,
-			Role = "Admin"
-		};
+        var userModel = new UserModel()
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "Admin"
+        };
 
-		var productModel = new ProductModel()
-		{
-			Id = Guid.NewGuid().ToString(),
-			Name = "Stövel",
-			Description = "Bootstrap Bill",
-			Stock = 20,
-			Price = 100m
-		};
+        var productModel = new ProductModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = "Stövel",
+            Description = "Bootstrap Bill",
+            Stock = 20,
+            Price = 100m
+        };
 
-		var productList = new List<ProductModel>();
+        var productList = new List<ProductModel>();
 
-		productList.Add(productModel);
+        productList.Add(productModel);
 
-		//First orderModel
-		var originalOrder = new OrderModel
-		{
-			Id = Guid.NewGuid().ToString(),
-			User = userModel,
-			ShippingChoice = "PostNord Standard",
-			ProductList = productList,
-			PriceTotal = 100m,
-			IsConfirmed = true,
-		};
+        //First orderModel
+        var originalOrder = new OrderModel
+        {
+            Id = Guid.NewGuid().ToString(),
+            User = userModel,
+            ShippingChoice = "PostNord Standard",
+            ProductList = productList,
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
 
-		//First orderModel updated
-		var updatedOrder = new OrderModel
-		{
-			Id = originalOrder.Id,
-			User = originalOrder.User,
-			ShippingChoice = "PostNord Express",
-			ProductList = originalOrder.ProductList,
-			PriceTotal = originalOrder.PriceTotal,
-			IsConfirmed = originalOrder.IsConfirmed,
-		};
+        //First orderModel updated
+        var updatedOrder = new OrderModel
+        {
+            Id = originalOrder.Id,
+            User = originalOrder.User,
+            ShippingChoice = "PostNord Express",
+            ProductList = originalOrder.ProductList,
+            PriceTotal = originalOrder.PriceTotal,
+            IsConfirmed = originalOrder.IsConfirmed,
+        };
 
-		_orderService.Setup(x => x.CreateOrderAsync(originalOrder)).Returns(true);
+        _orderService.Setup(x => x.CreateOrderAsync(originalOrder)).Returns(true);
         //Return false
-		_orderService.Setup(x => x.UpdateOrderAsync(It.Is<OrderModel>(o => o.User.Role == "Admin"))).Returns(false);
-		_orderService.Setup(x => x.GetOneOrderAsync(originalOrder.Id)).Returns(updatedOrder);
+        _orderService.Setup(x => x.UpdateOrderAsync(It.Is<OrderModel>(o => o.User.Role == "Admin"))).Returns(false);
+        _orderService.Setup(x => x.GetOneOrderAsync(originalOrder.Id)).Returns(updatedOrder);
 
-		// Act
-		var createResult = _orderService.Object.CreateOrderAsync(originalOrder);
+        // Act
+        var createResult = _orderService.Object.CreateOrderAsync(originalOrder);
 
-		//Trying to update the order
-		var updateResult = _orderService.Object.UpdateOrderAsync(updatedOrder);
+        //Trying to update the order
+        var updateResult = _orderService.Object.UpdateOrderAsync(updatedOrder);
 
-		//Fetching the original order
-		var getOneResult = _orderService.Object.GetOneOrderAsync(originalOrder.Id);
+        //Fetching the original order
+        var getOneResult = _orderService.Object.GetOneOrderAsync(originalOrder.Id);
 
-		// Assert
-		Assert.True(createResult);
-		Assert.False(updateResult);
-		Assert.NotNull(getOneResult);
-		Assert.Equal(originalOrder.Id, getOneResult.Id);
-		Assert.NotEqual(originalOrder.ShippingChoice, getOneResult.ShippingChoice);
-	}
+        // Assert
+        Assert.True(createResult);
+        Assert.False(updateResult);
+        Assert.NotNull(getOneResult);
+        Assert.Equal(originalOrder.Id, getOneResult.Id);
+        Assert.NotEqual(originalOrder.ShippingChoice, getOneResult.ShippingChoice);
+    }
 
-	[Fact]
-	public void GetOrdersAsync_UserShouldSeeAllOrders_AndReturnListOfOrders()
-	{
-		// Arrange
+    [Fact]
+    public void GetOrdersAsync_UserShouldSeeAllOrders_AndReturnListOfOrders()
+    {
+        // Arrange
 
-		var addressModel = new AddressModel()
-		{
-			Id = Guid.NewGuid().ToString(),
-			Street = "gata",
-			City = "Kalmar",
-			State = "Depression",
-			PhoneNumber = "123790",
-			ZipCode = "39350",
-			CountryCallingCode = "+46",
-			Country = "Sweden"
-		};
+        var addressModel = new AddressModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
 
-		var firstUser = new UserModel()
-		{
-			Id = new Guid().ToString(),
-			Address = addressModel,
-			Role = "User"
-		};
+        var firstUser = new UserModel()
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "User"
+        };
 
-		var productModel = new ProductModel()
-		{
-			Id = Guid.NewGuid().ToString(),
-			Name = "Stövel",
-			Description = "Bootstrap Bill",
-			Stock = 20,
-			Price = 100m
-		};
+        var productModel = new ProductModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = "Stövel",
+            Description = "Bootstrap Bill",
+            Stock = 20,
+            Price = 100m
+        };
 
-		var productList = new List<ProductModel>();
+        var productList = new List<ProductModel>();
 
-		productList.Add(productModel);
+        productList.Add(productModel);
 
 
         var ordersList = new List<OrderModel>();
 
-		var firstOrder = new OrderModel
-		{
-			Id = Guid.NewGuid().ToString(),
-			User = firstUser,
-			ShippingChoice = "PostNord Standard",
-			ProductList = productList,
-			PriceTotal = 100m,
-			IsConfirmed = true,
-		};
+        var firstOrder = new OrderModel
+        {
+            Id = Guid.NewGuid().ToString(),
+            User = firstUser,
+            ShippingChoice = "PostNord Standard",
+            ProductList = productList,
+            PriceTotal = 100m,
+            IsConfirmed = true,
+        };
         ordersList.Add(firstOrder);
 
         var secondOrder = new OrderModel
@@ -915,24 +915,56 @@ public class OrderService_Tests
         ordersList.Add(secondOrder);
 
 
-		_orderService.Setup(x => x.CreateOrderAsync(firstOrder)).Returns(true);
-		_orderService.Setup(x => x.CreateOrderAsync(secondOrder)).Returns(true);
+        _orderService.Setup(x => x.CreateOrderAsync(firstOrder)).Returns(true);
+        _orderService.Setup(x => x.CreateOrderAsync(secondOrder)).Returns(true);
 
-		//Return false
-		_orderService.Setup(x => x.GetAllUserOrdersAsync()).Returns(ordersList.Where(o => o.User.Id == firstUser.Id).ToList()); ;
+        //Return false
+        _orderService.Setup(x => x.GetAllUserOrdersAsync()).Returns(ordersList.Where(o => o.User.Id == firstUser.Id).ToList());
 
-		// Act
-		var firstOrderResult = _orderService.Object.CreateOrderAsync(firstOrder);
-		var secondOrderResult = _orderService.Object.CreateOrderAsync(secondOrder);
+        // Act
+        var firstOrderResult = _orderService.Object.CreateOrderAsync(firstOrder);
+        var secondOrderResult = _orderService.Object.CreateOrderAsync(secondOrder);
 
-		//Fetching all orders connected to the user
-		var firstUserOrders = _orderService.Object.GetAllUserOrdersAsync();
+        //Fetching all orders connected to the user
+        var firstUserOrders = _orderService.Object.GetAllUserOrdersAsync();
 
 
-		// Assert
-		Assert.True(firstOrderResult);
-		Assert.True(secondOrderResult);
+        // Assert
+        Assert.True(firstOrderResult);
+        Assert.True(secondOrderResult);
         Assert.NotNull(firstUserOrders);
-		Assert.All(firstUserOrders, order => Assert.Equal(firstUser.Id, order.User.Id));
-	}
+        Assert.All(firstUserOrders, order => Assert.Equal(firstUser.Id, order.User.Id));
+    }
+
+    [Fact]
+    public void GetUserCartAsync_ShouldReturnCart_FromCorrectUser()
+    {
+        //Arrange
+
+        var userModel = new UserModel() //A registered user is created
+        {
+            Id = new Guid().ToString(),
+            Address = new AddressModel(),
+            Role = "User"
+        };
+
+        var cartModel = new CartModel() //A cart model is created, with the UserId from the above user. This will simulate the corresponding user cart
+        {
+            UserId = userModel.Id,
+            ProductList = new List<ProductModel>(),
+            PriceTotal = 100m
+        };
+
+        _orderService.Setup(x => x.GetUserCartAsync(userModel.Id)).Returns(cartModel); //GetUserCartAsync is setup to return the simulated cartModel when the corresponding UserId is inserted
+
+        //Act
+
+        var result = _orderService.Object.GetUserCartAsync(userModel.Id); //GetUserCartAsync method is called
+
+        //Assert
+
+        Assert.NotNull(result); //The returned value should not be null
+        Assert.IsType<CartModel>(result); //The returned object should be of the type CartModel
+        Assert.Equal(userModel.Id, result.UserId); //The UserId of the returned cart should be equal to the Id of the user created above
+    }
 }
