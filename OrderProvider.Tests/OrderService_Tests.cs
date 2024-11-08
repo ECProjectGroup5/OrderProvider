@@ -1229,4 +1229,51 @@ public class OrderService_Tests
 
         Assert.True(result); //The returned value should be true
     }
+
+    [Fact]
+    public void UpdateUserAddressAsync_ShouldReturnFalse_IfFieldIsMissing()
+    {
+        // Arrange
+        var addressModel = new AddressModel() //An address object is created
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
+
+        var userModel = new UserModel() //A registered user is created with the address object created above
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "User"
+        };
+
+        var updatedAddressModel = new AddressModel() //An updated address object is created, but with some of the fields missing
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = null!,
+            City = null!,
+            State = "Happiness",
+            PhoneNumber = "09876543",
+            ZipCode = "39999",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
+
+
+        _orderService.Setup(x => x.UpdateUserAddressAsync(userModel.Id, updatedAddressModel)).Returns(false); //UpdatedUserAddressAsync is setup to return false if the incomplete addressModel is inserted
+
+        // Act
+
+        var result = _orderService.Object.UpdateUserAddressAsync(userModel.Id, updatedAddressModel); //UpdateUserAddressAsync method is called, and the updated address is inserted
+
+        // Assert
+
+        Assert.False(result); //The returned value should be false
+    }
 }
