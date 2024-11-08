@@ -1304,6 +1304,137 @@ public class OrderService_Tests
 		Assert.True(firstUserOrders.Last().CreationDate == firstOrder.CreationDate);
 	}
 
+    [Fact]
+    public void GetUserAddressAsync_ShouldReturnCorrectAddress()
+    {
+        // Arrange
+        var addressModel = new AddressModel() //An address object is created
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
+
+        var userModel = new UserModel() //A registered user is created with the above address object
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "User"
+        };
+
+
+        _orderService.Setup(x => x.GetUserAddressAsync(userModel.Id)).Returns(addressModel); //GetUserAddressAsync is setup to return the simulated address object, if the corresponding userId is inserted
+
+        // Act
+
+        var result = _orderService.Object.GetUserAddressAsync(userModel.Id); //GetUserAddressAsync method is called
+
+        // Assert
+
+        Assert.NotNull(result); //The returned value should not be null
+        Assert.IsType<AddressModel>(result); //The returned object should be of the type AddressModel
+        Assert.Equal(addressModel.Id, result.Id); //The Id of the returned address object should be equal to the Id of the address object created above
+    }
+
+    [Fact]
+    public void UpdateUserAddressAsync_ShouldUpdateUserAddress_AndReturnTrue()
+    {
+        // Arrange
+        var addressModel = new AddressModel() //An address object is created
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
+
+        var userModel = new UserModel() //A registered user is created with the address object created above
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "User"
+        };
+
+        var updatedAddressModel = new AddressModel() //An updated address object is created
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata 2",
+            City = "Nybro",
+            State = "Happiness",
+            PhoneNumber = "09876543",
+            ZipCode = "39999",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
+
+
+        _orderService.Setup(x => x.UpdateUserAddressAsync(userModel.Id, updatedAddressModel)).Returns(true); //UpdatedUserAddressAsync is setup to return true
+
+        // Act
+
+        var result = _orderService.Object.UpdateUserAddressAsync(userModel.Id, updatedAddressModel); //UpdateUserAddressAsync method is called, and the updated address is inserted
+
+        // Assert
+
+        Assert.True(result); //The returned value should be true
+    }
+
+    [Fact]
+    public void UpdateUserAddressAsync_ShouldReturnFalse_IfFieldIsMissing()
+    {
+        // Arrange
+        var addressModel = new AddressModel() //An address object is created
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
+
+        var userModel = new UserModel() //A registered user is created with the address object created above
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "User"
+        };
+
+        var updatedAddressModel = new AddressModel() //An updated address object is created, but with some of the fields missing
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = null!,
+            City = null!,
+            State = "Happiness",
+            PhoneNumber = "09876543",
+            ZipCode = "39999",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
+
+
+        _orderService.Setup(x => x.UpdateUserAddressAsync(userModel.Id, updatedAddressModel)).Returns(false); //UpdatedUserAddressAsync is setup to return false if the incomplete addressModel is inserted
+
+        // Act
+
+        var result = _orderService.Object.UpdateUserAddressAsync(userModel.Id, updatedAddressModel); //UpdateUserAddressAsync method is called, and the updated address is inserted
+
+        // Assert
+
+        Assert.False(result); //The returned value should be false
+    }
+
 	[Fact]
 	public void CalculateTotalPrice_WhenUserChoosesShipping_ReturnsCorrectTotalPrice()
 	{
