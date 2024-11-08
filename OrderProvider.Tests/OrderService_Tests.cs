@@ -45,6 +45,14 @@ public class OrderService_Tests
             Price = 100m
         };
 
+        var standardShippingChoice = new ShippingChoice()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ShippingCompanyName = "PostNord",
+            ShippingMethod = "Standard",
+            ShippingPrice = 100m
+        };
+
         var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
 
         productList.Add(productModel); //The previously created productModel is added to the productList
@@ -53,7 +61,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -106,7 +114,15 @@ public class OrderService_Tests
             Price = 100m
         };
 
-        var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
 
         productList.Add(productModel); //The previously created productModel is added to the productList
 
@@ -114,7 +130,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = null!, //User property is set to null
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -175,7 +191,15 @@ public class OrderService_Tests
             Price = 100m
         };
 
-        var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
 
         productList.Add(productModel); //The previously created productModel is added to the productList
 
@@ -183,7 +207,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -243,7 +267,15 @@ public class OrderService_Tests
             Price = 100m
         };
 
-        var productList = new List<ProductModel>();
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var productList = new List<ProductModel>();
 
         productList.Add(productModel);
 
@@ -251,7 +283,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -314,7 +346,15 @@ public class OrderService_Tests
             Price = 100m
         };
 
-        var productList = new List<ProductModel>();
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var productList = new List<ProductModel>();
 
         productList.Add(productModel);
 
@@ -322,7 +362,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -384,7 +424,15 @@ public class OrderService_Tests
             Price = 100m
         };
 
-        var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
 
         productList.Add(productModel); //The previously created productModel is added to the productList
 
@@ -392,7 +440,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -453,7 +501,15 @@ public class OrderService_Tests
             Price = 100m
         };
 
-        var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
 
         productList.Add(productModel); //The previously created productModel is added to the productList
 
@@ -461,7 +517,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -513,7 +569,15 @@ public class OrderService_Tests
             Price = 100m
         };
 
-        var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var productList = new List<ProductModel>(); //A productList is created, which will be inserted into the orderModel
 
         productList.Add(productModel); //The previously created productModel is added to the productList
 
@@ -521,7 +585,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = false, //IsConfirmed is set to false
@@ -553,11 +617,19 @@ public class OrderService_Tests
 
         string id = Guid.NewGuid().ToString(); //An order number is created, which will be used to search for the corresponding order
 
-        var orderModel = new OrderModel //An orderModel is created with the id above, in order to simulate the corresponding order
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var orderModel = new OrderModel //An orderModel is created with the id above, in order to simulate the corresponding order
         {
             Id = id,
             User = new UserModel(),
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = new List<ProductModel>(),
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -584,11 +656,19 @@ public class OrderService_Tests
 
         string id = Guid.NewGuid().ToString(); //An order number is created, which will be used to search for the corresponding order
 
-        var orderModel = new OrderModel //An orderModel is created with a diffrent id from the one above, in order to simulate a different order
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var orderModel = new OrderModel //An orderModel is created with a diffrent id from the one above, in order to simulate a different order
         {
             Id = Guid.NewGuid().ToString(),
             User = new UserModel(),
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = new List<ProductModel>(),
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -620,11 +700,19 @@ public class OrderService_Tests
             Role = "User"
         };
 
-        var orderModel = new OrderModel //An orderModel is created with the same id as above, and with the same user as above, in order to simulate the corresponding order
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var orderModel = new OrderModel //An orderModel is created with the same id as above, and with the same user as above, in order to simulate the corresponding order
         {
             Id = id,
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = new List<ProductModel>(),
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -659,11 +747,19 @@ public class OrderService_Tests
             Role = "User"
         };
 
-        var orderModel = new OrderModel //An orderModel is created with the same user as above, in order to simulate an existing order that belongs to the above user
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var orderModel = new OrderModel //An orderModel is created with the same user as above, in order to simulate an existing order that belongs to the above user
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = new List<ProductModel>(),
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -673,7 +769,7 @@ public class OrderService_Tests
         {
             Id = id,
             User = new UserModel() { Id = Guid.NewGuid().ToString() },
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = new List<ProductModel>(),
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -695,7 +791,6 @@ public class OrderService_Tests
 	public void UpdateOrderAsync_AdminUpdatesOrder_ShouldReturnTrue()
 	{
 		// Arrange
-
         var addressModel = new AddressModel()
         {
             Id = Guid.NewGuid().ToString(),
@@ -726,14 +821,30 @@ public class OrderService_Tests
 
         var productList = new List<ProductModel>();
 
-        productList.Add(productModel);
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var expressShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Express",
+			ShippingPrice = 150m
+		};
+
+		productList.Add(productModel);
 
         //First orderModel
         var originalOrder = new OrderModel
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -744,7 +855,7 @@ public class OrderService_Tests
         {
             Id = originalOrder.Id,
             User = originalOrder.User,
-            ShippingChoice = "PostNord Express",
+            ShippingChoice = expressShippingChoice,
             ProductList = originalOrder.ProductList,
             PriceTotal = originalOrder.PriceTotal,
             IsConfirmed = originalOrder.IsConfirmed,
@@ -806,14 +917,30 @@ public class OrderService_Tests
 
         var productList = new List<ProductModel>();
 
-        productList.Add(productModel);
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var expressShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Express",
+			ShippingPrice = 150m
+		};
+
+		productList.Add(productModel);
 
         //First orderModel
         var originalOrder = new OrderModel
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -824,7 +951,7 @@ public class OrderService_Tests
         {
             Id = originalOrder.Id,
             User = originalOrder.User,
-            ShippingChoice = "PostNord Express",
+            ShippingChoice = expressShippingChoice,
             ProductList = originalOrder.ProductList,
             PriceTotal = originalOrder.PriceTotal,
             IsConfirmed = originalOrder.IsConfirmed,
@@ -888,7 +1015,23 @@ public class OrderService_Tests
 
         var productList = new List<ProductModel>();
 
-        productList.Add(productModel);
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var expressShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Express",
+			ShippingPrice = 150m
+		};
+
+		productList.Add(productModel);
 
 
         var ordersList = new List<OrderModel>();
@@ -897,7 +1040,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = firstUser,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -908,7 +1051,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = new UserModel { Id = "1", Address = addressModel, Role = "User" },
-            ShippingChoice = "PostNord Express",
+            ShippingChoice = expressShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -968,7 +1111,6 @@ public class OrderService_Tests
     }
 
     [Fact]
-
     public void DeleteProductFromList_ShouldReturnUpdatedList_WithoutTheProduct()
     {
         // Arrange
@@ -1086,6 +1228,22 @@ public class OrderService_Tests
 
 		var productList = new List<ProductModel>();
 
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var expressShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Express",
+			ShippingPrice = 150m
+		};
+
 		productList.Add(productModel);
 
 
@@ -1095,7 +1253,7 @@ public class OrderService_Tests
         {
             Id = Guid.NewGuid().ToString(),
             User = userModel,
-            ShippingChoice = "PostNord Standard",
+            ShippingChoice = standardShippingChoice,
             ProductList = productList,
             PriceTotal = 100m,
             IsConfirmed = true,
@@ -1107,7 +1265,7 @@ public class OrderService_Tests
 		{
 			Id = Guid.NewGuid().ToString(),
 			User = userModel,
-			ShippingChoice = "PostNord Express",
+			ShippingChoice = expressShippingChoice,
 			ProductList = productList,
 			PriceTotal = 100m,
 			IsConfirmed = true,
@@ -1119,7 +1277,7 @@ public class OrderService_Tests
 		{
 			Id = Guid.NewGuid().ToString(),
 			User = userModel,
-			ShippingChoice = "PostNord Express",
+			ShippingChoice = expressShippingChoice,
 			ProductList = productList,
 			PriceTotal = 100m,
 			IsConfirmed = true,
@@ -1144,5 +1302,235 @@ public class OrderService_Tests
 		Assert.True(firstUserOrders.SequenceEqual(firstUserOrders.OrderByDescending(o => o.CreationDate).ToList()));
 		Assert.True(firstUserOrders.First().CreationDate == thirdOrder.CreationDate);
 		Assert.True(firstUserOrders.Last().CreationDate == firstOrder.CreationDate);
+	}
+
+	[Fact]
+	public void CalculateTotalPrice_WhenUserChoosesShipping_ReturnsCorrectTotalPrice()
+	{
+		// Arrange
+
+		var addressModel = new AddressModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Street = "gata",
+			City = "Kalmar",
+			State = "Depression",
+			PhoneNumber = "123790",
+			ZipCode = "39350",
+			CountryCallingCode = "+46",
+			Country = "Sweden"
+		};
+
+		var userModel = new UserModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Address = addressModel,
+			Role = "User"
+		};
+
+		var productModel = new ProductModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Name = "Stövel",
+			Description = "Bootstrap Bill",
+			Stock = 20,
+			Price = 100m
+		};
+
+		var productList = new List<ProductModel>();
+
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		productList.Add(productModel);
+
+		var firstOrder = new OrderModel
+		{
+			Id = Guid.NewGuid().ToString(),
+			User = userModel,
+			ShippingChoice = standardShippingChoice,
+			ProductList = productList,
+			PriceTotal = 100m,
+			IsConfirmed = true,
+			CreationDate = new DateTime(2024, 11, 5)
+		};
+
+		// Expected totalprice with shipping
+		decimal expectedTotalPrice = firstOrder.PriceTotal + standardShippingChoice.ShippingPrice;
+		_orderService.Setup(x => x.CalculateTotalPrice(It.IsAny<decimal>(), It.IsAny<decimal>()))
+					.Returns((decimal orderPrice, decimal shippingPrice) => orderPrice + shippingPrice);
+
+        _orderService.Setup(x => x.CreateOrderAsync(firstOrder)).Returns(true);
+
+		// Act
+		firstOrder.PriceTotal = _orderService.Object.CalculateTotalPrice(firstOrder.PriceTotal, standardShippingChoice.ShippingPrice);
+        var newOrder = _orderService.Object.CreateOrderAsync(firstOrder);
+
+		// Assert
+		Assert.Equal(expectedTotalPrice, firstOrder.PriceTotal);
+		Assert.Equal(200m, firstOrder.PriceTotal);
+        Assert.True(newOrder);
+	}
+
+	[Fact]
+	public void CalculateTotalPrice_WhenUserEnterPromoCode_ReturnsCorrectTotalPrice()
+	{
+		// Arrange
+
+		var addressModel = new AddressModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Street = "gata",
+			City = "Kalmar",
+			State = "Depression",
+			PhoneNumber = "123790",
+			ZipCode = "39350",
+			CountryCallingCode = "+46",
+			Country = "Sweden"
+		};
+
+		var userModel = new UserModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Address = addressModel,
+			Role = "User"
+		};
+
+		var productModel = new ProductModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Name = "Stövel",
+			Description = "Bootstrap Bill",
+			Stock = 20,
+			Price = 100m
+		};
+
+		var productList = new List<ProductModel>();
+
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+        var promoCode = new PromoCodeModel()
+        {
+            Id = Guid.NewGuid().ToString(),
+            PromoCode = "promoCode",
+            DiscountPercentage = 50m
+        };
+
+		productList.Add(productModel);
+
+		var firstOrder = new OrderModel
+		{
+			Id = Guid.NewGuid().ToString(),
+			User = userModel,
+			ShippingChoice = standardShippingChoice,
+			ProductList = productList,
+            PromoCode = promoCode,
+			PriceTotal = 100m,
+			IsConfirmed = true,
+			CreationDate = new DateTime(2024, 11, 5)
+		};
+
+		// Expected totalprice after promoCode
+		decimal expectedTotalPrice = firstOrder.PriceTotal * (1 - (promoCode.DiscountPercentage / 100));
+
+		_orderService.Setup(x => x.CalculateTotalPrice(It.IsAny<decimal>(), It.IsAny<decimal>()))
+			.Returns((decimal orderPrice, decimal discountPercentage) => orderPrice * (1 - (discountPercentage / 100)));
+
+		_orderService.Setup(x => x.CreateOrderAsync(firstOrder)).Returns(true);
+
+		// Act
+		firstOrder.PriceTotal = _orderService.Object.CalculateTotalPrice(firstOrder.PriceTotal, promoCode.DiscountPercentage);
+        var newOrder = _orderService.Object.CreateOrderAsync(firstOrder);
+
+		// Assert
+		Assert.Equal(expectedTotalPrice, firstOrder.PriceTotal);
+        Assert.Equal(50m,firstOrder.PriceTotal);
+	}
+
+	[Fact]
+	public void ValidatePromoCode_WhenUserEnterIncorrectPromoCode_ReturnsFalse()
+	{
+		// Arrange
+
+		var addressModel = new AddressModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Street = "gata",
+			City = "Kalmar",
+			State = "Depression",
+			PhoneNumber = "123790",
+			ZipCode = "39350",
+			CountryCallingCode = "+46",
+			Country = "Sweden"
+		};
+
+		var userModel = new UserModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Address = addressModel,
+			Role = "User"
+		};
+
+		var productModel = new ProductModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Name = "Stövel",
+			Description = "Bootstrap Bill",
+			Stock = 20,
+			Price = 100m
+		};
+
+		var productList = new List<ProductModel>();
+
+		var standardShippingChoice = new ShippingChoice()
+		{
+			Id = Guid.NewGuid().ToString(),
+			ShippingCompanyName = "PostNord",
+			ShippingMethod = "Standard",
+			ShippingPrice = 100m
+		};
+
+		var promoCode = new PromoCodeModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			PromoCode = "promoCode",
+			DiscountPercentage = 50m
+		};
+
+		productList.Add(productModel);
+
+		var firstOrder = new OrderModel
+		{
+			Id = Guid.NewGuid().ToString(),
+			User = userModel,
+			ShippingChoice = standardShippingChoice,
+			ProductList = productList,
+			PromoCode = promoCode,
+			PriceTotal = 100m,
+			IsConfirmed = true,
+			CreationDate = new DateTime(2024, 11, 5)
+		};
+
+        var promoCodeInDB = "promoCode1";
+
+
+		_orderService.Setup(x => x.ValidatePromoCode(promoCode.PromoCode, promoCodeInDB)).Returns(false);
+
+		// Act
+		var result = _orderService.Object.ValidatePromoCode(promoCode.PromoCode, promoCodeInDB);
+
+		// Assert
+		Assert.False(result);
 	}
 }
