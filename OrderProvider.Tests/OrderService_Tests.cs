@@ -1145,4 +1145,41 @@ public class OrderService_Tests
 		Assert.True(firstUserOrders.First().CreationDate == thirdOrder.CreationDate);
 		Assert.True(firstUserOrders.Last().CreationDate == firstOrder.CreationDate);
 	}
+
+    [Fact]
+    public void GetUserAddressAsync_ShouldReturnCorrectAddress()
+    {
+        // Arrange
+        var addressModel = new AddressModel() //An address object is created
+        {
+            Id = Guid.NewGuid().ToString(),
+            Street = "gata",
+            City = "Kalmar",
+            State = "Depression",
+            PhoneNumber = "123790",
+            ZipCode = "39350",
+            CountryCallingCode = "+46",
+            Country = "Sweden"
+        };
+
+        var userModel = new UserModel() //A registered user is created
+        {
+            Id = new Guid().ToString(),
+            Address = addressModel,
+            Role = "User"
+        };
+
+
+        _orderService.Setup(x => x.GetUserAddressAsync(userModel.Id)).Returns(addressModel); //GetUserAddressAsync is setup to return the simulated address object, if the corresponding userId is inserted
+
+        // Act
+
+        var result = _orderService.Object.GetUserAddressAsync(userModel.Id); //GetUserAddressAsync method is called
+
+        // Assert
+
+        Assert.NotNull(result); //The returned value should not be null
+        Assert.IsType<AddressModel>(result); //The returned object should be of the type AddressModel
+        Assert.Equal(addressModel.Id, result.Id); //The Id of the returned address object should be equal to the Id of the address object created above
+    }
 }
