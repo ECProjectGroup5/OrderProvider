@@ -17,4 +17,5 @@ public interface IOrderService
     CartModel GetUserCartAsync(string userId);
 	decimal CalculateTotalPrice(decimal orderPrice, decimal valuePrice);
 	bool ValidatePromoCode(string userInput, string promoCode);
+	bool SendMessageAsync(string OrderStatus, string NewOrderStatus);
 }

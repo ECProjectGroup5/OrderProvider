@@ -116,6 +116,202 @@ public class OrderRepository_Tests
     }
 
 	[Fact]
+
+	public async Task GetOneAsync_ShouldGetOneOrderEntityInDatabase_And_ReturnOrderEntity()
+	{
+
+		// Arrange
+
+		var addressJSON = JsonConvert.SerializeObject(_userModel.Address);
+		var productListJSON = JsonConvert.SerializeObject(_productList);
+
+		var orderEntity = new OrderEntity
+		{
+			Id = Guid.NewGuid().ToString(),
+			Address = addressJSON,
+			UserId = _userModel.Id,
+			ShippingChoice = "PostNord Standard",
+			ProductList = productListJSON,
+			PriceTotal = 100m
+		};
+		var order = await _orderRepository.CreateAsync(orderEntity);
+
+
+		// Act
+		var existingOrder = await _orderRepository.GetOneAsync(x => x.Equals(orderEntity));
+		
+
+		// Assert
+		Assert.NotNull(existingOrder);
+	}
+
+	[Fact]
+
+	public async Task GetOneAsync_ShouldNotGetOneOrderEntityInDatabase_And_ReturnNull()
+	{
+
+		// Arrange
+
+		var addressJSON = JsonConvert.SerializeObject(_userModel.Address);
+		var productListJSON = JsonConvert.SerializeObject(_productList);
+
+		var orderEntity = new OrderEntity
+		{
+			Id = Guid.NewGuid().ToString(),
+			Address = addressJSON,
+			UserId = _userModel.Id,
+			ShippingChoice = "PostNord Standard",
+			ProductList = productListJSON,
+			PriceTotal = 100m
+		};
+
+		// Act
+		var existingOrder = await _orderRepository.GetOneAsync(x => x.Equals(orderEntity));
+
+
+		// Assert
+		Assert.Null(existingOrder);
+	}
+
+	[Fact]
+
+	public async Task GetAllAsync_ShouldGetAllOrderEntitiesInDatabase_And_ReturnListOfOrderEntity()
+	{
+
+		// Arrange
+
+		var addressJSON = JsonConvert.SerializeObject(_userModel.Address);
+		var productListJSON = JsonConvert.SerializeObject(_productList);
+
+		var orderEntity = new OrderEntity
+		{
+			Id = Guid.NewGuid().ToString(),
+			Address = addressJSON,
+			UserId = _userModel.Id,
+			ShippingChoice = "PostNord Standard",
+			ProductList = productListJSON,
+			PriceTotal = 100m
+		};
+
+		var order = await _orderRepository.CreateAsync(orderEntity);
+
+
+		// Act
+		var existingOrders = await _orderRepository.GetAllAsync();
+
+
+		// Assert
+		Assert.NotNull(existingOrders);
+	}
+
+	[Fact]
+
+	public async Task GetAllAsync_ShouldGetAllOrderEntitiesInDatabase_And_ReturnNull()
+	{
+
+		// Arrange
+
+		var addressJSON = JsonConvert.SerializeObject(_userModel.Address);
+		var productListJSON = JsonConvert.SerializeObject(_productList);
+
+		var orderEntity = new OrderEntity
+		{
+			Id = Guid.NewGuid().ToString(),
+			Address = addressJSON,
+			UserId = _userModel.Id,
+			ShippingChoice = "PostNord Standard",
+			ProductList = productListJSON,
+			PriceTotal = 100m
+		};
+
+		// Act
+		var existingOrders = await _orderRepository.GetAllAsync();
+
+
+		// Assert
+		Assert.Empty(existingOrders);
+	}
+
+	[Fact]
+
+	public async Task UpdateAsync_ShouldUpdateOneOrderEntitieInDatabase_And_ReturnTrue()
+	{
+
+		// Arrange
+
+		var addressJSON = JsonConvert.SerializeObject(_userModel.Address);
+		var productListJSON = JsonConvert.SerializeObject(_productList);
+
+		var oldOrder = new OrderEntity
+		{
+			Id = "1",
+			Address = addressJSON,
+			UserId = _userModel.Id,
+			ShippingChoice = "PostNord Standard",
+			ProductList = productListJSON,
+			PriceTotal = 100m
+		};
+		var newOrder = new OrderEntity
+		{
+			Id = "1",
+			Address = addressJSON,
+			UserId = _userModel.Id,
+			ShippingChoice = "PostNord Express",
+			ProductList = productListJSON,
+			PriceTotal = 100m
+		};
+
+		await _orderRepository.CreateAsync(oldOrder);
+
+		// Act
+		var updatedOrder = await _orderRepository.UpdateAsync(x => x.Id == oldOrder.Id, newOrder);
+
+
+		// Assert
+		Assert.True(updatedOrder);
+	}
+
+	[Fact]
+
+	public async Task UpdateAsync_ShouldNotUpdateOneOrderEntitieInDatabase_And_ReturnFalse()
+	{
+
+		// Arrange
+
+		var addressJSON = JsonConvert.SerializeObject(_userModel.Address);
+		var productListJSON = JsonConvert.SerializeObject(_productList);
+
+		var oldOrder = new OrderEntity
+		{
+			Id = "1",
+			Address = addressJSON,
+			UserId = _userModel.Id,
+			ShippingChoice = "PostNord Standard",
+			ProductList = productListJSON,
+			PriceTotal = 100m
+		};
+		var newOrder = new OrderEntity
+		{
+			Id = "2",
+			Address = addressJSON,
+			UserId = _userModel.Id,
+			ShippingChoice = "PostNord Express",
+			ProductList = productListJSON,
+			PriceTotal = 100m
+		};
+
+		await _orderRepository.CreateAsync(oldOrder);
+
+		// Act
+		var updatedOrder = await _orderRepository.UpdateAsync(x => x.Id == oldOrder.Id, newOrder);
+
+
+		// Assert
+		Assert.False(updatedOrder);
+	}
+
+
+	[Fact]
 	public async Task DeleteAsync_ShouldDeleteAnOrderEntityInDatabase_And_ReturnTrue()
 	{
 

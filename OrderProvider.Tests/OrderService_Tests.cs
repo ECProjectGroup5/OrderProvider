@@ -1664,4 +1664,76 @@ public class OrderService_Tests
 		// Assert
 		Assert.False(result);
 	}
+
+	[Fact]
+
+	public void SendMessageAsync_ShouldSendUpdatesToGuest_And_ReturnTrue()
+	{
+		// Arrange
+
+		var addressModel = new AddressModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Street = "gata",
+			City = "Kalmar",
+			State = "Depression",
+			PhoneNumber = "123790",
+			ZipCode = "39350",
+			CountryCallingCode = "+46",
+			Country = "Sweden"
+		};
+
+		var userModel = new UserModel() //A guest user is created
+		{
+			Id = new Guid().ToString(),
+			Address = addressModel,
+			Role = "Guest"
+		};
+
+		var productModel = new ProductModel()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Name = "Stövel",
+			Description = "Bootstrap Bill",
+			Stock = 20,
+			Price = 100m
+		};
+
+        var standardShippingChoice = new ShippingChoice()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ShippingCompanyName = "PostNord",
+            ShippingMethod = "Standard",
+            ShippingPrice = 100m,
+        };
+
+		var productList = new List<ProductModel>();
+
+		productList.Add(productModel);
+
+		var orderModel = new OrderModel
+		{
+			Id = Guid.NewGuid().ToString(),
+			User = userModel,
+			ShippingChoice = standardShippingChoice,
+			ProductList = productList,
+			PriceTotal = 100m,
+			IsConfirmed = true,
+            OrderStatus = "Created"
+		};
+
+	    _orderService.Setup(x => x.CreateOrderAsync(orderModel)).Returns(true);
+
+		var newOrderStatus = "Shipped";
+		_orderService.Setup(x => x.SendMessageAsync(orderModel.OrderStatus!, newOrderStatus)).Returns(true);
+
+		// Act
+		var createOrderResult = _orderService.Object.CreateOrderAsync(orderModel);
+		var sendMessageResult = _orderService.Object.SendMessageAsync(orderModel.OrderStatus!, newOrderStatus);
+
+		// Assert
+		Assert.True(sendMessageResult);
+
+	}
+
 }

@@ -10,6 +10,7 @@ public class OrderModel
     public PromoCodeModel? PromoCode { get; set; }
     public decimal PriceTotal { get; set; }
 	public bool IsConfirmed { get; set; } = false;
-    public DateTime? DeliveryDate { get; set; }
+	public string? OrderStatus { get; set; }
+	public DateTime? DeliveryDate { get; set; }
     public DateTime? CreationDate { get; set; }
 }
