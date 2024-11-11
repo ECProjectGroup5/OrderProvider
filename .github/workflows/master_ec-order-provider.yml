@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'ec-order-provider'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DD1BDFE32EBB4381B0B32562D75406AD }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1278C0CEC8E3472AA2CE211E40DB44A1 }}
           package: .
